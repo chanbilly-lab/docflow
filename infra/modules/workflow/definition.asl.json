@@ -1,0 +1,244 @@
+{
+  "Comment": "Review decisions are persisted before callbacks and transactionally finalized.",
+  "StartAt": "ValidateCase",
+  "States": {
+    "ValidateCase": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${validate_arn}",
+        "Payload": {
+          "submission.$": "$",
+          "executionArn.$": "$$.Execution.Id"
+        }
+      },
+      "ResultSelector": {
+        "valid.$": "$.Payload.valid"
+      },
+      "ResultPath": "$.validation",
+      "TimeoutSeconds": 30,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.failure",
+          "Next": "MarkWorkflowFailed"
+        }
+      ],
+      "Next": "ValidationChoice"
+    },
+    "ValidationChoice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.validation.valid",
+          "BooleanEquals": true,
+          "Next": "CreateReviewTaskAndWait"
+        }
+      ],
+      "Default": "MarkWorkflowFailed"
+    },
+    "MarkWorkflowFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${failure_arn}",
+        "Payload": {
+          "submission.$": "$$.Execution.Input",
+          "executionArn.$": "$$.Execution.Id"
+        }
+      },
+      "ResultPath": null,
+      "TimeoutSeconds": 30,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Failed"
+    },
+    "Failed": {
+      "Type": "Fail",
+      "Error": "WorkflowTechnicalFailure",
+      "Cause": "Workflow could not complete."
+    },
+    "CreateReviewTaskAndWait": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke.waitForTaskToken",
+      "Parameters": {
+        "FunctionName": "${review_arn}",
+        "Payload": {
+          "submission.$": "$$.Execution.Input",
+          "executionArn.$": "$$.Execution.Id",
+          "taskToken.$": "$$.Task.Token",
+          "enteredTime.$": "$$.State.EnteredTime",
+          "retryCount.$": "$$.State.RetryCount"
+        }
+      },
+      "TimeoutSeconds": 1209600,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.failure",
+          "Next": "MarkWorkflowFailed"
+        }
+      ],
+      "ResultPath": "$.reviewDecision",
+      "Next": "DecisionChoice"
+    },
+    "ReviewCallbackReceived": {
+      "Type": "Succeed"
+    },
+    "DecisionChoice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.reviewDecision.decision",
+          "StringEquals": "APPROVE",
+          "Next": "FinalizeApproved"
+        },
+        {
+          "Variable": "$.reviewDecision.decision",
+          "StringEquals": "REJECT",
+          "Next": "FinalizeRejected"
+        },
+        {
+          "Variable": "$.reviewDecision.decision",
+          "StringEquals": "REQUEST_INFORMATION",
+          "Next": "FinalizeNeedsInformation"
+        }
+      ],
+      "Default": "MarkWorkflowFailed"
+    },
+    "FinalizeApproved": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${finalize_arn}",
+        "Payload": {
+          "submission.$": "$$.Execution.Input",
+          "executionArn.$": "$$.Execution.Id",
+          "decision.$": "$.reviewDecision"
+        }
+      },
+      "ResultPath": null,
+      "TimeoutSeconds": 30,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.failure",
+          "Next": "MarkWorkflowFailed"
+        }
+      ],
+      "Next": "ReviewCallbackReceived"
+    },
+    "FinalizeRejected": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${finalize_arn}",
+        "Payload": {
+          "submission.$": "$$.Execution.Input",
+          "executionArn.$": "$$.Execution.Id",
+          "decision.$": "$.reviewDecision"
+        }
+      },
+      "ResultPath": null,
+      "TimeoutSeconds": 30,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.failure",
+          "Next": "MarkWorkflowFailed"
+        }
+      ],
+      "Next": "ReviewCallbackReceived"
+    },
+    "FinalizeNeedsInformation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${finalize_arn}",
+        "Payload": {
+          "submission.$": "$$.Execution.Input",
+          "executionArn.$": "$$.Execution.Id",
+          "decision.$": "$.reviewDecision"
+        }
+      },
+      "ResultPath": null,
+      "TimeoutSeconds": 30,
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.failure",
+          "Next": "MarkWorkflowFailed"
+        }
+      ],
+      "Next": "ReviewCallbackReceived"
+    }
+  }
+}

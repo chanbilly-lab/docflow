@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://docflow.invalid/events/domain-event.schema.json",
+  "title": "Implemented DocFlow EventBridge domain envelope",
+  "type": "object",
+  "required": [
+    "source",
+    "detail-type",
+    "detail"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseCreated"
+        },
+        "detail": {
+          "$ref": "case-created.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.document"
+        },
+        "detail-type": {
+          "const": "DocumentValidated"
+        },
+        "detail": {
+          "allOf": [
+            {
+              "$ref": "document-validation.schema.json"
+            },
+            {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "validationStatus": {
+                      "const": "VALID"
+                    },
+                    "validationErrors": {
+                      "maxItems": 0
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.document"
+        },
+        "detail-type": {
+          "const": "DocumentValidationFailed"
+        },
+        "detail": {
+          "allOf": [
+            {
+              "$ref": "document-validation.schema.json"
+            },
+            {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "validationStatus": {
+                      "const": "INVALID"
+                    },
+                    "validationErrors": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseSubmitted"
+        },
+        "detail": {
+          "allOf": [
+            {
+              "$ref": "case-submission.schema.json"
+            },
+            {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attempt": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseResubmitted"
+        },
+        "detail": {
+          "allOf": [
+            {
+              "$ref": "case-submission.schema.json"
+            },
+            {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attempt": {
+                      "minimum": 2
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseWorkflowFailed"
+        },
+        "detail": {
+          "$ref": "case-workflow-failed.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseReadyForReview"
+        },
+        "detail": {
+          "$ref": "case-ready-for-review.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.review"
+        },
+        "detail-type": {
+          "const": "ReviewStarted"
+        },
+        "detail": {
+          "$ref": "review-started.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseApproved"
+        },
+        "detail": {
+          "$ref": "case-approved.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "CaseRejected"
+        },
+        "detail": {
+          "$ref": "case-rejected.schema.json"
+        }
+      }
+    },
+    {
+      "properties": {
+        "source": {
+          "const": "docflow.case"
+        },
+        "detail-type": {
+          "const": "AdditionalInformationRequested"
+        },
+        "detail": {
+          "$ref": "additional-information-requested.schema.json"
+        }
+      }
+    }
+  ]
+}

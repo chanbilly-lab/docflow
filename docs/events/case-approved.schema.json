@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string"
+    },
+    "eventVersion": {
+      "const": "1.0"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "caseId": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "SYSTEM"
+        },
+        "id": {
+          "const": "workflow-finalize-case"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "pattern": "^t_c_[A-Za-z0-9_-]+_[1-9][0-9]*$"
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "reviewerId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "decision": {
+          "const": "APPROVE"
+        },
+        "decisionReason": {
+          "type": "null"
+        },
+        "requestedItems": {
+          "type": "array",
+          "maxItems": 0
+        }
+      },
+      "required": [
+        "taskId",
+        "attempt",
+        "reviewerId",
+        "decision",
+        "decisionReason",
+        "requestedItems"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "correlationId",
+    "caseId",
+    "actor",
+    "data"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseApproved detail v1.0",
+  "description": "Finalized persisted review decision; excludes tokens and private callback metadata."
+}

@@ -1,0 +1,52 @@
+# Local runtimes, dependencies and generated output
+.tools/
+.venv/
+node_modules/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage/
+*.tsbuildinfo
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Terraform local state and plans
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+crash.log
+crash.*.log
+.terraformrc
+terraform.rc
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Private audit/runtime/export material is not public source.
+.cache/
+.privacy-audit/
+.aws/
+.ssh/
+private-data/
+uploads/
+exports/
+backups/
+*.log
+*.p12
+*.pfx

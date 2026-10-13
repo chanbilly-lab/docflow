@@ -1,0 +1,1 @@
+"""Reserved shared idempotency namespace."""

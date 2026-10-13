@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "eventId": {
+      "type": "string"
+    },
+    "eventVersion": {
+      "const": "1.0"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "caseId": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "SYSTEM"
+        },
+        "id": {
+          "const": "document-processor"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documentId": {
+          "type": "string"
+        },
+        "documentVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "validationStatus": {
+          "enum": [
+            "VALID",
+            "INVALID"
+          ]
+        },
+        "validationErrors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "documentId",
+        "documentVersion",
+        "validationStatus",
+        "validationErrors",
+        "sha256"
+      ]
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "correlationId",
+    "caseId",
+    "actor",
+    "data"
+  ]
+}

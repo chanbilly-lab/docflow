@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string"
+    },
+    "eventVersion": {
+      "const": "1.0"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "caseId": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "USER"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "caseType": {
+          "const": "SUPPLIER_ONBOARDING"
+        },
+        "requesterId": {
+          "type": "string"
+        },
+        "checklistTemplateId": {
+          "type": "string"
+        },
+        "checklistTemplateVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "caseType",
+        "requesterId",
+        "checklistTemplateId",
+        "checklistTemplateVersion"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "correlationId",
+    "caseId",
+    "actor",
+    "data"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseCreated detail v1.0",
+  "description": "Detail stored in the transactional outbox for source docflow.case / detail-type CaseCreated."
+}

@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string"
+    },
+    "eventVersion": {
+      "const": "1.0"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlationId": {
+      "type": "string"
+    },
+    "caseId": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "SYSTEM"
+        },
+        "id": {
+          "const": "workflow-create-review-task"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "pattern": "^t_c_[A-Za-z0-9_-]+_[1-9][0-9]*$"
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "priority": {
+          "const": "NORMAL"
+        },
+        "dueAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "taskId",
+        "attempt",
+        "priority",
+        "dueAt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "correlationId",
+    "caseId",
+    "actor",
+    "data"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseReadyForReview detail v1.0",
+  "description": "A review and its complete checklist are available; no callback data."
+}
