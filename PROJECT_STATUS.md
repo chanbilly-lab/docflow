@@ -2,11 +2,16 @@
 
 ## PRIVACY-PUBLISH-01 — 2026-10-14
 
-State: IN_PROGRESS. Static source, all-history and remote-surface review complete;
-redacted public candidate prepared. No application code or cloud state changed.
-Publication is pending the owner's selection of private-history backup and clean
-public repository strategy. TASK-021 BLOCKED and TASK-022 DONE remain; do not
-infer cloud acceptance or production readiness. See docs/PRIVACY_REVIEW.md.
+State: DONE. Owner approved private-history preservation and clean same-name
+public source. Public DocFlow ID 1418914087 has only reviewed clean history;
+original ID 1366248864 remains PRIVATE/read-only as docflow-private-archive.
+Original checkout and mirror origins point to the archive; clean public work uses
+D:/Projects/docflow-public, codex/privacy-release and GitHub noreply metadata.
+Anonymous public access returned 200; the archive and original Git object probe
+returned 404. No application CI, tests, AWS action or deployment occurred.
+TASK-021 BLOCKED and TASK-022 DONE remain; cloud acceptance and production
+readiness are unchanged. No next implementation task is started. See
+docs/PRIVACY_REVIEW.md for actual privacy findings, scans and publication evidence.
 
 > Privacy note (2026-10-14): private account/resource identifiers and personal home paths have been redacted for the public-release candidate. Historical outcomes are unchanged; placeholders are not live targets.
 

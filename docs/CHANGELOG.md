@@ -1,6 +1,6 @@
 # docs/CHANGELOG.md
 
-## 2026-10-14 — PRIVACY-PUBLISH-01 (prepared, publication pending)
+## 2026-10-14 — PRIVACY-PUBLISH-01 (completed source publication)
 
 - Purpose: remove private information before the owner-requested public release.
 - Files: 13 redacted historical documents; README/AGENTS/PROJECT_STATUS/tasks,
@@ -15,7 +15,8 @@
 - Verification: all refs/source metadata read; Gitleaks original-history exit 1
   with one individually verified non-secret test UUID. Post-redaction source
   review found zero remaining reviewed real-PII candidates. Remote surfaces and
-  synthetic images read. Fresh candidate commit scan to follow.
+  synthetic images read. The final clean-root scan returned exit 1 with the same
+  verified UUID false positive; fsck returned exit 0 without unreachable objects.
 - Semantic follow-up: 26 account-specific financial readings, three support-case
   references and one individual registration statement were removed/conditioned;
   seven further dated notes added. Only documentation changed; general technical
@@ -23,8 +24,15 @@
   is rebuilt without provisional earlier commit objects.
 - Tests: application tests/lint/type/build/CI and live credential checks NOT RUN;
   authorized privacy checks are recorded separately.
-- Known issues: repository renaming/backup/publication require final owner
-  selection; neither repository is public yet. Cloud limitations remain.
+- Publication: owner approved the plan; original ID 1366248864 was renamed to
+  docflow-private-archive and kept PRIVATE/read-only. New same-name ID 1418914087
+  is PUBLIC; only the reviewed clean root was pushed normally. Original work and
+  all refs are retained, old checkout/mirror origins point to the archive and
+  clean work uses D:/Projects/docflow-public. Anonymous public access 200,
+  private archive/old Git object 404, no application CI run.
+- Known issues: this bounded audit cannot prove absence of every unknown encoding
+  or external copy. Cloud acceptance remains unfinished; public source is not
+  application deployment. The homepage's older email metadata is separate work.
 
 > Privacy note (2026-10-14): private account/resource identifiers and personal home paths have been redacted for the public-release candidate. Historical outcomes are unchanged; placeholders are not live targets.
 

@@ -2,12 +2,15 @@
 
 ## DEC-035 — Separate private history from public source
 
-Status: Proposed; repository-management selection pending. Date: 2026-10-14.
+Status: Accepted and implemented by the owner's explicit approval. Date: 2026-10-14.
 Background: the owner requested privacy repairs before public source release;
 original metadata contains a private email and source documents contain actual
 operational identifiers. A HEAD-only edit would leave old information reachable.
-Decision proposed: preserve the original repository privately; publish a reviewed
-latest snapshot with clean history at the original repository name.
+Decision: preserve the original repository privately and archive it read-only;
+publish a reviewed latest snapshot with clean history at the original name.
+Implemented as public DocFlow ID 1418914087 and private archive ID 1366248864.
+Original checkout/mirror remotes point to the archive; public work uses the clean
+D:/Projects/docflow-public checkout and noreply commit identity.
 Reason: no force-push/data loss or public legacy objects. Alternative: rewrite
 all refs, which the contract forbids without specific approval and may leave
 cached original objects. Impact: clean public source root, private backup and

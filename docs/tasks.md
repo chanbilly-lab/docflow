@@ -4,9 +4,12 @@
 
 ## PRIVACY-PUBLISH-01 — Privacy review and public source
 
-Status: IN_PROGRESS. Owner requested review/privacy fixes and public source on
-2026-10-14. Static audit and isolated source redaction are complete;
-repository-management selection/publication remain pending.
+Status: DONE (2026-10-14). Owner approved retaining private history and publishing
+the clean same-name source. New public repository ID 1418914087; old ID 1366248864
+is PRIVATE/read-only as docflow-private-archive. Original checkout/mirror origins
+point to the archive; D:/Projects/docflow-public is the clean public checkout.
+Anonymous public page/metadata returned 200; archive and old Git object returned
+404. Only the clean codex/privacy-release branch was uploaded; application CI=0.
 
 Acceptance: reviewed private contacts/cloud identifiers/home paths and private
 legacy metadata are excluded from public source; original work/history preserved;

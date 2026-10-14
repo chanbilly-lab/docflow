@@ -2,14 +2,19 @@
 
 > Privacy note (2026-10-14): account-specific billing/credit details and private support identifiers are withheld for public release. Historical technical outcomes are unchanged; redacted details are not live targets.
 
-2026-10-14 PRIVACY-PUBLISH-01: the owner requested privacy review and public source
-publication. This isolated candidate has reviewed/redacted documentation and a
-new noreply-author history; original history remains private and unchanged.
-Repository rename/publication approval is pending. No force-push, AWS action,
-application verification or deployment is authorized by this preparation.
-See docs/PRIVACY_REVIEW.md. Once approved/published, use the clean checkout for
-public commits; never push legacy private history into it. This request changes
-source audience only; runtime/security/cloud boundaries remain.
+2026-10-14 PRIVACY-PUBLISH-01: the owner explicitly approved preserving private
+history and publishing the reviewed clean source under the original name.
+Public repository: https://github.com/chanbilly-lab/docflow (ID 1418914087),
+default branch codex/privacy-release; clean checkout D:/Projects/docflow-public.
+The original repository (ID 1366248864) is docflow-private-archive, PRIVATE and
+archived read-only. D:/Projects/docflow and the original audit mirror now point
+only to that archive; their work/history remain intact. New public commits must
+use GitHub noreply and the clean checkout. Never merge/push legacy private history
+into this repository. Initial codex publication ran no application CI; do not
+push main or create a PR while the owner's no-test instruction remains active.
+No force-push, AWS action, application testing or deployment occurred. Source
+publication does not establish cloud acceptance or production readiness.
+See docs/PRIVACY_REVIEW.md; all runtime/security/cloud boundaries remain.
 
 This file is the permanent operating contract for Codex and other coding agents working on DocFlow.
 

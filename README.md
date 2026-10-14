@@ -1,9 +1,11 @@
 # DocFlow
 
-2026-10-14: [privacy-reviewed source candidate](docs/PRIVACY_REVIEW.md) is prepared
-for the owner's requested public release. Publication awaits the selected
-repository-management method. Private identifiers in historical records are
-redacted; outcomes and application limitations are preserved.
+2026-10-14: [privacy-reviewed source](docs/PRIVACY_REVIEW.md) is public at
+https://github.com/chanbilly-lab/docflow, on codex/privacy-release. Original work
+and history remain in a private read-only archive. New development uses
+D:/Projects/docflow-public with GitHub noreply commits; the older checkout points
+to the archive. Private identifiers in historical records are redacted; outcomes
+and application limitations are preserved. Public source does not deploy a service.
 
 Illustrated project guides: [中文](docs/portfolio/guide-zh.md) |
 [English](docs/portfolio/guide-en.md). Both describe purpose, implemented features,
